@@ -1321,7 +1321,7 @@ function DemoButtons(props) {
                     <div className="HR_DefaultButton">
                       <button
                         mf-form-button
-                        className="buuttonvolou"
+                        className={props.className ? props.className : "buuttonvolou"}
                         id="lpgetstartedbutton"
                         onClick={handleClickOpen}
                       >
@@ -1365,7 +1365,7 @@ function DemoButtons(props) {
                   <div className="HR_DefaultButton">
                     <button
                       mf-form-button
-                      className="buuttonvolou"
+                      className={props.className ? props.className : "buuttonvolou"}
                       id="lpgetstartedbutton"
                       onClick={handleClickOpen}
                     >

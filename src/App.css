@@ -722,15 +722,16 @@
   color: var(--textPrimaryColor);
   font-size: 1.3vw;
   letter-spacing: 0.05vw;
-  padding: 0.6vw 0.1vw;
+  padding: 0 1vw;
   border-radius: 999px;
   margin-bottom: 1vw;
   background: none;
   font-weight: 700;
+  background-color: var(--panelBgColor);
 }
 
 .hero-heading {
-  color: var(--textPrimaryColor);
+  color: var(--whiteColor);
   font-size: 3.5vw;
   font-weight: 800;
   line-height: 1.15;
@@ -753,6 +754,7 @@
   flex-wrap: wrap;
   font-size: 1.2vw;
   text-align: left;
+  color: var(--whiteColor);
 }
 
 .hero-cta {
@@ -1453,6 +1455,7 @@ html {
   font-style: italic;
   margin: 0;
   font-size: 1.2vw;
+  color: #fff;
 }
 
 .RightdemoForm #popupScreen {
@@ -1512,7 +1515,7 @@ html {
   margin: 0;
   font-size: 1.7vw;
   font-weight: 700;
-  color: #333;
+  color: #fff;
 }
 
 .FeaturesWithImages h2 {
@@ -3148,13 +3151,26 @@ padding: 0; */
 }
 
 .HR_panel {
-  background-color: var(--panelBgColor);
-  padding: 1vw 3vw;
+  background-image: url("https://ik.imagekit.io/apps365/Lp-pages/hero-section-background-image.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+
   /* without offer */
   margin-top: 4vw;
 
   /* with Offer */
   /* margin-top: 14vw; */
+}
+
+.HR_overlay{
+  background: linear-gradient(to right,black 20%,transparent 80%);
+  padding: 1vw 3vw;
+}
+
+.HR_DefaultButton .head_btn{
+  background: transparent;
+  border-color: var(--whiteColor);
+  color: var(--whiteColor);
 }
 
 .MT5vw {
@@ -3903,9 +3919,10 @@ HR_Section1RightSide1 {
 .RightdemoForm {
   padding: 2vw;
   margin-top: 2vw;
-  background: rgba(37, 99, 235, 0.07);
-  border: 1px solid rgba(37, 99, 235, 0.3);
   border-radius: 0.5vw;
+  backdrop-filter: blur(25px);
+  background-color: #0000008f;
+  width: 27vw;
 }
 
 .LMSformButtonStyles {
@@ -4987,7 +5004,7 @@ body {
 
 .LMSBottomdemoForm .ms-Label,
 .LMSBottomdemoForm .ms-Label {
-  color: #333 !important;
+  color: #fff !important;
 }
 
 .SubmitbtngetStarted .ms-Button {
@@ -5394,7 +5411,7 @@ dialog::backdrop {
   }
 
   .hero-heading {
-    color: var(--textPrimaryColor);
+    color: var(--whiteColor);
     font-size: 8.5vw;
   }
 
@@ -5961,6 +5978,17 @@ dialog::backdrop {
 
   .HR_panel {
     margin-top: 0vw;
+    background-position: center;
+    background-size: cover;
+  }
+
+  .HR_overlay{
+    background: linear-gradient(to bottom, black 10%,transparent 80%);
+    padding: 1vw 3vw;
+  }
+
+  .RightdemoForm{
+    width:90vw;
   }
 
   .stickyBookDemo {

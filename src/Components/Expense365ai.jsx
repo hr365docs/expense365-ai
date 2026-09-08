@@ -520,45 +520,47 @@ function Expense365ai() {
                 <ScrollToTop />
                 <Header isComparison={true} />
                 <div className='HR_panel'>
+                    <div className='HR_overlay'>
                     <div className="HR_FlexCenterSpcBetween HR_ParentSection1" >
-                        <div className="hero-wrapper">
-                            <span className="hero-badge">SharePoint Expense Management Software</span>
+                            <div className="hero-wrapper">
+                                <h1 className="hero-badge">SharePoint Expense Management Software</h1>
 
-                            <h1 className="hero-heading">
-                               AI-Powered Microsoft Expense Tracker Software Built for   
-                                <span className="accent"> Smarter Expense Management</span>
-                            </h1>
+                                <h2 className="hero-heading">
+                                AI-Powered Microsoft Expense Tracker Software Built for   
+                                    <span className="accent"> Smarter Expense Management</span>
+                                </h2>
 
-                            <p className="hero-desc">
-                                <strong> Stop managing business expenses across spreadsheets, emails, and disconnected tools.</strong>
-                               Track, approve, and control every business expense directly inside Microsoft 365 and SharePoint with AI-powered automation. Expense 365 brings expense tracking, receipt management, approvals, and reporting into one secure Microsoft-native platform. 
-                            </p>
+                                <p className="hero-desc">
+                                    <strong> Stop managing business expenses across spreadsheets, emails, and disconnected tools.</strong>
+                                Track, approve, and control every business expense directly inside Microsoft 365 and SharePoint with AI-powered automation. Expense 365 brings expense tracking, receipt management, approvals, and reporting into one secure Microsoft-native platform. 
+                                </p>
 
-                            <div className="hero-cta">
-                                <DemoButtons isreverse={true}
-                                    demobtnText="Get Expense 365 Demo" trailbtnText="Start Your 14-Day Free Trial" />
-                            </div>
-
-                            <div className="hero-features">
-                                {features.map((feature) => (
-                                    <span key={feature} className="feature-pill">
-                                        <CheckIcon />
-                                        {feature}
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className='HR_Section1RightSide CLMHerosectionRight'>
-                            <div className="RightdemoForm">
-                                <div className="FormFieldStyles">
-                                    <h3>Book Your Free Demo</h3>
-                                    <p>See Expense 365 in action — no commitment required.</p>
-                                    <DemoButtons CLM365demoForm={true} />
+                                <div className="hero-cta">
+                                    <DemoButtons isreverse={true}
+                                        demobtnText="Get Expense 365 Demo" trailbtnText="Start Your 14-Day Free Trial" className="head_btn" />
                                 </div>
 
+                                <div className="hero-features">
+                                    {features.map((feature) => (
+                                        <span key={feature} className="feature-pill">
+                                            <CheckIcon />
+                                            {feature}
+                                        </span>
+                                    ))}
+                                </div>
                             </div>
-                            {/* <img alt='MainImage' src={"https://ik.imagekit.io/zn4au2jftpm5/hr365/random-images/20944145__1_-removebg-preview%20(1)_8HExemHEKq.png?updatedAt=1708084034004"} /> */}
+
+                            <div className='HR_Section1RightSide CLMHerosectionRight'>
+                                <div className="RightdemoForm">
+                                    <div className="FormFieldStyles">
+                                        <h3>Book Your Free Demo</h3>
+                                        <p>See Expense 365 in action — no commitment required.</p>
+                                        <DemoButtons CLM365demoForm={true} />
+                                    </div>
+
+                                </div>
+                                {/* <img alt='MainImage' src={"https://ik.imagekit.io/zn4au2jftpm5/hr365/random-images/20944145__1_-removebg-preview%20(1)_8HExemHEKq.png?updatedAt=1708084034004"} /> */}
+                            </div>
                         </div>
                     </div>
                 </div>
