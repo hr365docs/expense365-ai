@@ -514,8 +514,8 @@ function Expense365ai() {
         <>
             <HelmetProvider>
                 <Helmet>
-                    <title>Effortless CLM 365 – Simplified for Your Business</title>
-                    <meta name="description" content="Centralize, track, and manage contracts effortlessly with eSign, custom workflows, and real-time tracking—integrated seamlessly with Microsoft Teams & SharePoint." />
+                    <title>AI SharePoint Expense Tracker: Automate Expenses</title>
+                    <meta name="description" content="Discover an AI SharePoint expense tracker to automate expense management, simplify approvals, reduce manual work, and improve financial visibility." />
                 </Helmet>
                 <ScrollToTop />
                 <Header isComparison={true} />
