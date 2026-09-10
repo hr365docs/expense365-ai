@@ -4,7 +4,7 @@ import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import { Dialog, DialogContent } from "@mui/material";
 import { IoClose } from "react-icons/io5";
 import { MyContext } from '../../App';
-function CLMClient() {
+function ExpenseClient() {
     //Mobile View
     const [isMobile, setIsMobile] = React.useState(false);
     React.useEffect(() => {
@@ -19,40 +19,40 @@ function CLMClient() {
     const slidesData = [
         {
             id: 1,
-            name: "Beth T.",
+            name: "Pat Titzer",
             rating: 5,
-            company: "Manager of IT ",
-            location: "United States ",
+            company: "Program Manager",
+            location: " Adelaide, Australia",
             testimonial:
-                "We needed a contract management solution, and CLM 365 has been working well for us so far. The platform is easy to use, and the support team is fantastic. Whenever we have questions, we receive fast answers and quick assistance. ",
+                "Expense Tracker 365 is a great app with excellent support. The advanced features make it a complete tool & has really improved our expense tracking and reporting workflow.",
         },
         {
             id: 2,
-            name: "Michael Thompson ",
+            name: "Dan Schmidt",
             rating: 5,
-            company: "Legal Head ",
-            location: "Canada",
+            company: " Managing Director",
+            location: "San Francisco, California, United States",
             testimonial:
-                "The AI feature made it easy to get quick contract summaries, helping both legal and non-legal teams understand key points without reading the full document. CLM 365 automatically highlighted important information, making contract reviews faster and more efficient.’",
+                "Expense 365 has been a good experience so far with reliable support. The expense tracking workflow and approvals are simple and efficient, helping us track expenses in real time.",
         },
         {
             id: 3,
-            name: "James Carter ",
+            name: "Joshua Cooling",
             rating: 5,
-            company: "Procurement Manager ",
-            location: "United Kingdom ",
+            company: "Data Analyst",
+            location: "Muskegon, Michigan, United States",
             testimonial:
-                "Redlining directly in Word has made contract negotiations much easier for our team. We can review changes, collaborate efficiently, and focus on important clauses without slowing down the process. So far, we haven't encountered any issues with the platform.",
+                "Expense 365 provides a reliable experience with responsive support that’s always available when needed. It allows us to track all our expenses in one place, making the overall process more organized and convenient.",
         },
-        {
-            id: 8,
-            name: "Sarah Mitchell ",
-            rating: 5,
-            company: "Head of Legal Operations  ",
-            location: "United States ",
-            testimonial:
-                "Having all contracts stored in one place has made a big difference for our team. Instead of searching through emails and folders, we can quickly find the documents we need. CLM 365 gives us a centralized repository that makes contract tracking and access much easier. ",
-        },
+        // {
+        //     id: 8,
+        //     name: "Sarah Mitchell ",
+        //     rating: 5,
+        //     company: "Head of Legal Operations  ",
+        //     location: "United States ",
+        //     testimonial:
+        //         "Having all contracts stored in one place has made a big difference for our team. Instead of searching through emails and folders, we can quickly find the documents we need. CLM 365 gives us a centralized repository that makes contract tracking and access much easier. ",
+        // },
     ];
     React.useEffect(() => {
         const interval = setInterval(() => {
@@ -173,4 +173,4 @@ function CLMClient() {
     )
 }
 
-export default CLMClient;
+export default ExpenseClient;

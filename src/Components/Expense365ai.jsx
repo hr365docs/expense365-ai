@@ -22,7 +22,7 @@ import Azuer from './Utiilities/Azuer';
 import CyberSecurity from './Utiilities/demo';
 import CustomerSupport from './Utiilities/CustomerSupport';
 import ComparisonSection from './ComparisonSection';
-import CLMClient from './Utiilities/CLMClient';
+import ExpenseClient from './Utiilities/ExpenseClient';
 import GlobalFooter from './GlobalMultiple/GlobalFooter';
 import OverviewExpense365 from './GlobalMultiple/OverviewExpense365';
 function Expense365ai() {
@@ -771,7 +771,7 @@ function Expense365ai() {
                     </h2>
 
                     <div className='HR_MT'>
-                        <CLMClient />
+                        <ExpenseClient />
                     </div>
                     {/* <div style={{ background: "none", padding: "0vw 6vw 2vw -0.9vw" }}>
                         <h2 class="et-integration-title">Boost Productivity with Seamless Integrations</h2>

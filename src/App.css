@@ -722,7 +722,7 @@
   color: var(--textPrimaryColor);
   font-size: 1.3vw;
   letter-spacing: 0.05vw;
-  padding: 0 1vw;
+  padding: 0.3vw 1.5vw;
   border-radius: 999px;
   margin-bottom: 1vw;
   background: none;
@@ -744,10 +744,10 @@
   color: #c10161;
   font-weight: 600;
   font-family: var(--font-Assistant);
+  line-height: 1.15;
 }
 
 .hero-desc {
-  display: flex;
   gap: 1vw;
   align-items: center;
   margin-bottom: 1.1vw;
@@ -3151,7 +3151,7 @@ padding: 0; */
 }
 
 .HR_panel {
-  background-image: url("https://ik.imagekit.io/apps365/Lp-pages/hero-section-background-image.jpg");
+  background-image: url("https://ik.imagekit.io/apps365/Lp-pages/Expense-hero-section.webp");
   background-size: cover;
   background-repeat: no-repeat;
 
@@ -3163,7 +3163,7 @@ padding: 0; */
 }
 
 .HR_overlay{
-  background: linear-gradient(to right,black 20%,transparent 80%);
+  background: linear-gradient(to right top, white -23%, black 36%, transparent 80%);
   padding: 1vw 3vw;
 }
 
@@ -3201,7 +3201,7 @@ padding: 0; */
   align-items: center;
   padding: 20px;
   box-sizing: border-box;
-  height: 300px;
+  height: 380px;
   width: 1fr;
   /* Fixed height for all slides */
   background-color: #f9f9f9;
@@ -3513,10 +3513,10 @@ button {
 
 .HR_MainHeaderSection {
   background-color: white;
-  width: auto;
+  /* width: auto; */
   /* margin-bottom: 2vw; */
   position: fixed;
-  width: 100%;
+  width: 100vw;
   margin-top: 0px;
   margin-bottom: 0px;
   /* Without Offer */
@@ -5345,7 +5345,7 @@ dialog::backdrop {
   }
 
   .challenge-card {
-    height: 10vw;
+    height: 13vw;
     background: #fff;
     border-radius: 0.8vw;
     border-left: 0.18vw solid #ff5c4d;
@@ -5397,9 +5397,9 @@ dialog::backdrop {
     text-align: center;
   }
 
-  .CLMHerosectionRight {
+  /* .CLMHerosectionRight {
     width: 95% !important;
-  }
+  } */
 
   .feature-pill {
     font-size: 3.3vw;
@@ -5983,12 +5983,19 @@ dialog::backdrop {
   }
 
   .HR_overlay{
-    background: linear-gradient(to bottom, black 10%,transparent 80%);
+    background: linear-gradient(to bottom, black 10%,transparent 80%, #ffffffeb);
     padding: 1vw 3vw;
   }
 
+  .hero-features {
+   gap: 2vw;
+  }
+
   .RightdemoForm{
-    width:90vw;
+    width: 75vw;
+    margin-bottom: 5vw;
+    padding: 4vw;
+    border-radius: 0.8vw;
   }
 
   .stickyBookDemo {
@@ -6182,11 +6189,12 @@ dialog::backdrop {
   .mySwiper .swiper-wrapper{
     grid-template-columns: 1fr;
     gap: 3vw;
-  } 
+  } */
 
   .swiperSlidestyles{
     width: 95vw;
-  } */
+    height: 60vw;
+  } 
 
   .elementor-testimonial__title {
     font-size: 3vw;
@@ -6742,8 +6750,9 @@ dialog::backdrop {
 
   .HR_Section1RightSide {
     padding-top: 10px;
-    width: 100%;
-    justify-self: center;
+    width: 100% !important;
+    display: flex;
+    justify-content: center;
   }
 
   .BlackFridayOfferImage img {
