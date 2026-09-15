@@ -42,10 +42,6 @@ function OverviewExpense365(props) {
                 <p style={{ margin: "0" }}>Bring expense tracking, approvals and reporting into one centralized platform built natively inside Microsoft 365 with intelligent automation.
                 </p>
 
-
-                <div style={{ margin: "1vw 0vw", display: "flex", justifyContent: "center", marginBottom: "1vw" }}>
-                    <DemoButtons LMS365="LMS365" demobtnText="Book a Live Demo" />
-                </div>
                 <div className="CLMoverviewSliderWrapper">
 
                     <Swiper>
