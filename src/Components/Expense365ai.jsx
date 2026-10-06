@@ -342,7 +342,7 @@ function Expense365ai() {
             content: `Expense 365 is Microsoft SharePoint expense tracking software designed to keep expense processes connected with Microsoft 365 rather than adding another isolated business application. `
         },
         {
-            title: '23. Which currency are the prices listed in?',
+            title: '13. Which currency are the prices listed in?',
             content: isFromIndia
                 ? 'All prices are listed in INR.'
                 : 'All prices are listed in USD.'
