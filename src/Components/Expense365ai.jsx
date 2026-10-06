@@ -25,15 +25,82 @@ import ComparisonSection from './ComparisonSection';
 import CLMClient from './Utiilities/CLMClient';
 import GlobalFooter from './GlobalMultiple/GlobalFooter';
 import OverviewExpense365 from './GlobalMultiple/OverviewExpense365';
+const getInitialIsFromIndia = () => {
+    try {
+        const cachedIp = localStorage.getItem("ipInfo");
+        if (cachedIp) {
+            const parsed = JSON.parse(cachedIp);
+            return parsed?.country === "IN";
+        }
+    } catch (e) { }
+    return false;
+};
 function Expense365ai() {
+    const [isFromIndia, setIsFromIndia] = useState(getInitialIsFromIndia);
+    const IpTokenCount = [
+        "25241198af9c52",
+        "843b85132fe7ea",
+        "6a981cfd695563",
+        "1840068c4be068"
+    ];
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
+    useEffect(() => {
+        async function checkLocation() {
+            // 1. Check ipinfo.io
+            for (let i = 0; i < IpTokenCount.length; i++) {
+                const token = IpTokenCount[i];
+                try {
+                    const response = await fetch(`https://ipinfo.io/json?token=${token}`);
+                    if (!response.ok || response.status === 429) continue;
+                    const data = await response.json();
+                    if (data && data.country && !data.error && data.status !== 429) {
+                        const fromIndia = data.country === "IN";
+                        setIsFromIndia(fromIndia);
+                        localStorage.setItem("ipInfo", JSON.stringify(data));
+                        return;
+                    }
+                } catch (error) { }
+            }
+
+            // 2. Fallback A: ipapi.co
+            try {
+                const response = await fetch("https://ipapi.co/json/");
+                if (response.ok) {
+                    const data = await response.json();
+                    const code = data?.country_code || data?.country;
+                    if (code) {
+                        const fromIndia = code === "IN";
+                        setIsFromIndia(fromIndia);
+                        localStorage.setItem("ipInfo", JSON.stringify({ country: code }));
+                        return;
+                    }
+                }
+            } catch (e) { }
+
+            // 3. Fallback B: geojs.io
+            try {
+                const response = await fetch("https://get.geojs.io/v1/ip/country.json");
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data && data.country) {
+                        const fromIndia = data.country === "IN";
+                        setIsFromIndia(fromIndia);
+                        localStorage.setItem("ipInfo", JSON.stringify({ country: data.country }));
+                        return;
+                    }
+                }
+            } catch (e) { }
+        }
+
+        checkLocation();
+    }, []);
     const featuresEndtoEnd = [
         {
             title: "AI Receipt Scanning",
             desc: "Capture receipt details and flag duplicate invoices with AI.",
             //icon : (<>
             //     <div class="feature-icon fi-teal"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4l3 3"></path></svg></div></>)
-            icon : "https://ik.imagekit.io/zn4au2jftpm5/Apps365/productPAGES/cpu_VznWkbJf4F.svg?updatedAt=1735815651661"
+            icon: "https://ik.imagekit.io/zn4au2jftpm5/Apps365/productPAGES/cpu_VznWkbJf4F.svg?updatedAt=1735815651661"
         },
         {
             title: "Expense Approval Workflows",
@@ -42,7 +109,7 @@ function Expense365ai() {
             //     <>
             //         <div class="feature-icon fi-orange"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div></>
             // )
-            icon : "https://ik.imagekit.io/zn4au2jftpm5/Apps365/productPAGES/chat-bot_aHqv7IuR6C.svg"
+            icon: "https://ik.imagekit.io/zn4au2jftpm5/Apps365/productPAGES/chat-bot_aHqv7IuR6C.svg"
         },
         {
             title: "Expense Reporting",
@@ -67,7 +134,7 @@ function Expense365ai() {
             //     <><div class="feature-icon fi-gold"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></div>
             //     </>
             // )
-            icon:"https://ik.imagekit.io/zn4au2jftpm5/Apps365/productPAGES/office_a5GgL_th7R.svg"
+            icon: "https://ik.imagekit.io/zn4au2jftpm5/Apps365/productPAGES/office_a5GgL_th7R.svg"
         },
         {
             title: "Corporate Card Management",
@@ -136,17 +203,17 @@ function Expense365ai() {
             desc: "Build custom apps to enhance financial workflows and integrate seamlessly with Expense 365.",
             img: "https://ik.imagekit.io/zn4au2jftpm5/Microsoft_logo.svg_pVkFqFdkP.png?updatedAt=1726464369360"
         },
-         {
+        {
             title: "QuickBooks",
             desc: "Sync approved expenses with QuickBooks to keep accounting records updated, and make reconciliation easier.",
             img: "https://ik.imagekit.io/cubiclogics/Apps365/ET/quickbook.avif"
         },
-         {
+        {
             title: "Xero",
             desc: "Build custom apps to enhance financial workflows and integrate seamlessly with Expense 365.",
             img: "https://ik.imagekit.io/apps365/Lp-pages/Xero.svg"
         },
-         {
+        {
             title: "Zoho Books",
             desc: "Route approved expense data into Zoho Books to keep financial records updated, and simplify expense tracking.",
             img: "https://ik.imagekit.io/apps365/Lp-pages/Zoho-Books-White-Logo-PNG-SVG-Vector.svg"
@@ -237,7 +304,7 @@ function Expense365ai() {
         {
             title: `3. Can we manage expenses directly through SharePoint?`,
             content: `Yes. Expense 365 works as a SharePoint expense tracker, helping teams keep expense records, receipts, approvals, and related information organized within their Microsoft environment. `
-        }, 
+        },
         {
             title: '4. Our employees spend too much time entering receipt details. Can AI reduce that work?',
             content: `Yes. The AI expense tracker captures key receipt information such as merchant, date, amount, and tax, helping reduce repetitive manual entry. `
@@ -275,29 +342,31 @@ function Expense365ai() {
             content: `Expense 365 is Microsoft SharePoint expense tracking software designed to keep expense processes connected with Microsoft 365 rather than adding another isolated business application. `
         },
         {
-            title: '13. Which currency are the prices listed in?',
-            content: `All prices are listed in USD.`
+            title: '23. Which currency are the prices listed in?',
+            content: isFromIndia
+                ? 'All prices are listed in INR.'
+                : 'All prices are listed in USD.'
         }
     ];
-    
+
     const tabs = [
         {
             id: 6, title: 'AI-Powered Expense Capture', Heading: 'Capture, Categorize and Submit Expenses Faster with AI', content: (
                 <ul>
                     <li>
-                        Upload receipts and let AI automatically extract important details like vendor, date, amount, tax, and expense type.  
+                        Upload receipts and let AI automatically extract important details like vendor, date, amount, tax, and expense type.
                     </li>
                     <li>
-                      Eliminate manual data entry by converting receipts into ready-to-submit expense records.  
+                        Eliminate manual data entry by converting receipts into ready-to-submit expense records.
                     </li>
                     <li>
                         Reduce submission errors and help employees complete expense reports faster.
                     </li>
                     <li>
-                       Automatically Categorize Expenses with AI . Match receipts with related transactions or expense records.  
+                        Automatically Categorize Expenses with AI . Match receipts with related transactions or expense records.
                     </li>
                     <li id='Comparison'>
-                       Review expense activity with AI-assisted insights. 
+                        Review expense activity with AI-assisted insights.
                     </li>
 
                 </ul>
@@ -308,16 +377,16 @@ function Expense365ai() {
             id: 1, title: 'Microsoft Ecosystem', Heading: 'Effortless Integration with the Microsoft Ecosystem: Expense 365', content: (
                 <ul>
                     <li>
-                        Make the most of your Microsoft environment with Expense 365, built to work where your teams already do their work. 
+                        Make the most of your Microsoft environment with Expense 365, built to work where your teams already do their work.
                     </li>
                     <li>
-                       This cloud-based expense management solution integrates with Microsoft 365 to simplify receipt capture, expense submission, approvals, and reporting across the organization.  
+                        This cloud-based expense management solution integrates with Microsoft 365 to simplify receipt capture, expense submission, approvals, and reporting across the organization.
                     </li>
                     <li>
-                        Built on SharePoint and available inside Microsoft Teams, Expense 365 gives teams one central place to manage receipts, expenses, approvals, and records. 
+                        Built on SharePoint and available inside Microsoft Teams, Expense 365 gives teams one central place to manage receipts, expenses, approvals, and records.
                     </li>
                     <li>
-                        With Microsoft Outlook integration, teams can stay updated on expense submissions, approval requests, and reimbursement-related notifications.  
+                        With Microsoft Outlook integration, teams can stay updated on expense submissions, approval requests, and reimbursement-related notifications.
                     </li>
                 </ul>
             ),
@@ -327,16 +396,16 @@ function Expense365ai() {
             id: 2, title: 'Expense Operations', Heading: 'Streamlined Expense Operations: SharePoint Expense 365 App', content: (
                 <ul>
                     <li>
-                        Expense 365 simplifies the full expense process, from receipt capture and submission to approvals, reimbursements, and reporting, all within your Microsoft environment.   
+                        Expense 365 simplifies the full expense process, from receipt capture and submission to approvals, reimbursements, and reporting, all within your Microsoft environment.
                     </li>
                     <li>
-                      Built on SharePoint, it gives finance teams better control, visibility, and security across expenses, approvals, and reimbursement records. 
+                        Built on SharePoint, it gives finance teams better control, visibility, and security across expenses, approvals, and reimbursement records.
                     </li>
                     <li>
-                        Expense 365 supports configurable approval workflows, automated reminders, corporate card expense tracking, per diem management, and multi-currency reporting to reduce manual work and improve consistency.  
+                        Expense 365 supports configurable approval workflows, automated reminders, corporate card expense tracking, per diem management, and multi-currency reporting to reduce manual work and improve consistency.
                     </li>
                     <li>
-                       With Microsoft Teams integration, employees, managers, and finance teams can review expenses, approve claims, and stay aligned in one shared workspace. 
+                        With Microsoft Teams integration, employees, managers, and finance teams can review expenses, approve claims, and stay aligned in one shared workspace.
                     </li>
                 </ul>
             ), image: 'https://ik.imagekit.io/apps365/Lp-pages/expense-approval-software%201.avif'
@@ -345,16 +414,16 @@ function Expense365ai() {
             id: 3, title: 'User-Centerd', Heading: 'Built to Make Expense Work Faster and Easier', content: (
                 <ul>
                     <li>
-                       Designed with Microsoft Fluent UI, Expense 365 offers a clean and familiar interface that makes it easy for employees, managers, and finance teams to submit, review, and manage expenses.   
+                        Designed with Microsoft Fluent UI, Expense 365 offers a clean and familiar interface that makes it easy for employees, managers, and finance teams to submit, review, and manage expenses.
                     </li>
                     <li>
-                       AI helps speed up everyday tasks by scanning receipts, extracting expense details, auto-filling fields, and categorizing expenses with less manual effort.  
+                        AI helps speed up everyday tasks by scanning receipts, extracting expense details, auto-filling fields, and categorizing expenses with less manual effort.
                     </li>
                     <li>
                         Smart Match helps users quickly connect receipts with card transactions or expense records, making expense review and reconciliation easier
                     </li>
                     <li>
-                       Users can also personalize dashboards, views, and notifications to focus on the expense updates, approvals, and reports that matter most to them. 
+                        Users can also personalize dashboards, views, and notifications to focus on the expense updates, approvals, and reports that matter most to them.
                     </li>
                 </ul>
             ), image: 'https://ik.imagekit.io/apps365/Lp-pages/expense-365-integration-with-sharepoint%207.avif?updatedAt=1782377062381'
@@ -363,10 +432,10 @@ function Expense365ai() {
             id: 4, title: 'Expense Workflow', Heading: 'Expense 365 for Simplified Expense Management', content: (
                 <ul>
                     <li>
-                      Expense 365 helps teams manage employee expenses, travel costs, reimbursement claims, and corporate card spending from one place. 
+                        Expense 365 helps teams manage employee expenses, travel costs, reimbursement claims, and corporate card spending from one place.
                     </li>
                     <li>
-                        Capture receipts, submit expenses, track approvals, and keep records organized with less manual work and better visibility across every expense. 
+                        Capture receipts, submit expenses, track approvals, and keep records organized with less manual work and better visibility across every expense.
                     </li>
                     <li>
                         From employee claims to reimbursements and reporting, Expense 365 helps businesses process expenses faster, stay organized, and maintain better control over spending.
@@ -379,21 +448,21 @@ function Expense365ai() {
             id: 5, title: 'Enterprise-Grade Security', Heading: 'Enterprise-Grade Security and Compliance', content: (
                 <ul>
                     <li>
-                       Complete expense audit trails for every transaction and approval step 
+                        Complete expense audit trails for every transaction and approval step
                     </li>
                     <li>
-                      Role-based access controls to protect sensitive financial information   
+                        Role-based access controls to protect sensitive financial information
                     </li>
                     <li>
-                       Secure Microsoft 365-native data management and permissions   
-                    </li> 
-                    <li>
-                        Automated policy checks to improve compliance and reduce risks   
+                        Secure Microsoft 365-native data management and permissions
                     </li>
                     <li>
-                      Automated policy checks to improve compliance and reduce risks  
+                        Automated policy checks to improve compliance and reduce risks
                     </li>
-                   
+                    <li>
+                        Automated policy checks to improve compliance and reduce risks
+                    </li>
+
                 </ul>
             ),
             image: 'https://ik.imagekit.io/apps365/Lp-pages/expense-365-integration-with-sharepoint%207.avif?updatedAt=1782377062381'
@@ -403,70 +472,70 @@ function Expense365ai() {
     ];
 
     const Boxs = [
-         {
-            image : "https://ik.imagekit.io/apps365/Lp-pages/No%20duplicate%20document%20repositories.svg",
-            text : "Centralized Expense Management Hub"
+        {
+            image: "https://ik.imagekit.io/apps365/Lp-pages/No%20duplicate%20document%20repositories.svg",
+            text: "Centralized Expense Management Hub"
         },
         {
-            image : "https://ik.imagekit.io/cubiclogics/Helpdesk-LP/AI%20Copilot%20Assistance.svg",
-            text : "AI Copilot Assistance "
+            image: "https://ik.imagekit.io/cubiclogics/Helpdesk-LP/AI%20Copilot%20Assistance.svg",
+            text: "AI Copilot Assistance "
         },
         {
-            image : "https://ik.imagekit.io/apps365/Lp-pages/Role%20based%20permissions.svg",
-            text : "Microsoft Teams & Outlook integration "
+            image: "https://ik.imagekit.io/apps365/Lp-pages/Role%20based%20permissions.svg",
+            text: "Microsoft Teams & Outlook integration "
         },
         {
-            image : "https://ik.imagekit.io/apps365/Lp-pages/Microsoft%20Teams%20&%20Outlook%20integration.svg",
-            text : "Secure Role-Based Access "
+            image: "https://ik.imagekit.io/apps365/Lp-pages/Microsoft%20Teams%20&%20Outlook%20integration.svg",
+            text: "Secure Role-Based Access "
         },
         {
-            image : "https://ik.imagekit.io/apps365/Lp-pages/Microsoft%20365%20compliance.svg",
-            text : "Expense Automation "
+            image: "https://ik.imagekit.io/apps365/Lp-pages/Microsoft%20365%20compliance.svg",
+            text: "Expense Automation "
         },
-         {
-            image : "https://ik.imagekit.io/apps365/Lp-pages/Microsoft%20Entra%20ID%20security.svg",
-            text : "Audit & Compliance Visibility "
+        {
+            image: "https://ik.imagekit.io/apps365/Lp-pages/Microsoft%20Entra%20ID%20security.svg",
+            text: "Audit & Compliance Visibility "
         },
     ]
 
     const workBoxs = [
         {
-            image : "https://ik.imagekit.io/cubiclogics/Apps365/CLM/Approval-through-Emails.svg?updatedAt=1768997946170",
-            heading : "Submit Expense Requests",
-            text : "Employees submit expenses, upload receipts, and provide expense details through a centralized expense management system. Capture business expenses in a structured format without relying on spreadsheets or manual processes. "
+            image: "https://ik.imagekit.io/cubiclogics/Apps365/CLM/Approval-through-Emails.svg?updatedAt=1768997946170",
+            heading: "Submit Expense Requests",
+            text: "Employees submit expenses, upload receipts, and provide expense details through a centralized expense management system. Capture business expenses in a structured format without relying on spreadsheets or manual processes. "
         },
         {
-            image : "https://ik.imagekit.io/cubiclogics/Apps365/CLM/Role-Based%20Security.svg?updatedAt=1768996193300",
-            heading : "Automate Expense Approvals",
-            text : "Configure approval workflows to automatically route expenses to the right managers based on departments, policies, and approval requirements while keeping the process organized and efficient. "
+            image: "https://ik.imagekit.io/cubiclogics/Apps365/CLM/Role-Based%20Security.svg?updatedAt=1768996193300",
+            heading: "Automate Expense Approvals",
+            text: "Configure approval workflows to automatically route expenses to the right managers based on departments, policies, and approval requirements while keeping the process organized and efficient. "
         },
-         {
-            image : "https://ik.imagekit.io/cubiclogics/Apps365/CLM/technology.webp?updatedAt=1765798708952",
-            heading : "Review & Process Expenses Faster",
-            text : "Finance teams can review expense details, validate receipts, manage approvals, and process reimbursements faster with complete visibility into employee spending."
+        {
+            image: "https://ik.imagekit.io/cubiclogics/Apps365/CLM/technology.webp?updatedAt=1765798708952",
+            heading: "Review & Process Expenses Faster",
+            text: "Finance teams can review expense details, validate receipts, manage approvals, and process reimbursements faster with complete visibility into employee spending."
         },
-         {
-            image : "https://ik.imagekit.io/cubiclogics/Apps365/CLM/Operational%20Efficiency.webp?updatedAt=1765803725122",
-            heading : "Analyse & Optimize Spending",
-            text : "Track expense trends, reimbursement activity, policy compliance, and spending insights with reports and dashboards to improve financial decision-making. "
+        {
+            image: "https://ik.imagekit.io/cubiclogics/Apps365/CLM/Operational%20Efficiency.webp?updatedAt=1765803725122",
+            heading: "Analyse & Optimize Spending",
+            text: "Track expense trends, reimbursement activity, policy compliance, and spending insights with reports and dashboards to improve financial decision-making. "
         },
     ]
 
     const Aisteps = [
         {
-            DownText : "Use AI-powered receipt scanning to capture important expense information such as vendor, date, amount, and category, reducing manual data entry."
+            DownText: "Use AI-powered receipt scanning to capture important expense information such as vendor, date, amount, and category, reducing manual data entry."
         },
         {
-            DownText : "Automatically categorize expenses based on available information to help maintain consistent expense records and reporting."
+            DownText: "Automatically categorize expenses based on available information to help maintain consistent expense records and reporting."
         },
         {
-            DownText : "Generate expense summaries and Insights to help finance teams review spending patterns and make informed decisions."
+            DownText: "Generate expense summaries and Insights to help finance teams review spending patterns and make informed decisions."
         },
         {
-            DownText : "Provide relevant expense information and context to help managers review submissions faster and streamline approval workflows."
+            DownText: "Provide relevant expense information and context to help managers review submissions faster and streamline approval workflows."
         },
         {
-            DownText : "Reduce manual expense management and automate repetitive expense tasks while helping employees and finance teams focus on higher-value activities"
+            DownText: "Reduce manual expense management and automate repetitive expense tasks while helping employees and finance teams focus on higher-value activities"
         },
     ]
 
@@ -526,13 +595,13 @@ function Expense365ai() {
                                 <h1 className="hero-badge">SharePoint Expense Management Software</h1>
 
                                 <h2 className="hero-heading">
-                                AI-Powered Microsoft Expense Tracker Software Built for   
+                                    AI-Powered Microsoft Expense Tracker Software Built for
                                     <span className="accent"> Smarter Expense Management</span>
                                 </h2>
 
                                 <p className="hero-desc">
                                     <strong> Stop managing business expenses across spreadsheets, emails, and disconnected tools. </strong>
-                                <span>Track, approve, and control every business expense directly inside Microsoft 365 and SharePoint with AI-powered automation. Expense 365 brings expense tracking, receipt management, approvals, and reporting into one secure Microsoft-native platform.</span>
+                                    <span>Track, approve, and control every business expense directly inside Microsoft 365 and SharePoint with AI-powered automation. Expense 365 brings expense tracking, receipt management, approvals, and reporting into one secure Microsoft-native platform.</span>
                                 </p>
 
                                 <div className="hero-cta">
@@ -559,7 +628,7 @@ function Expense365ai() {
                                     </div>
 
                                 </div>
-                                {/* <img alt='MainImage' src={"https://ik.imagekit.io/zn4au2jftpm5/hr365/random-images/20944145__1_-removebg-preview%20(1)_8HExemHEKq.png?updatedAt=1708084034004"} /> */}  
+                                {/* <img alt='MainImage' src={"https://ik.imagekit.io/zn4au2jftpm5/hr365/random-images/20944145__1_-removebg-preview%20(1)_8HExemHEKq.png?updatedAt=1708084034004"} /> */}
                             {/* </div> */}
                         </div>
                     </div>
@@ -578,11 +647,11 @@ function Expense365ai() {
                         <div className="sharepoint-container">
                             <div className="sharepoint-header">
                                 <h2 className='HR_heading'>
-                                    Everything You Need to Simplify Expense Management. Built on SharePoint 
+                                    Everything You Need to Simplify Expense Management. Built on SharePoint
                                 </h2>
 
                                 <p>
-                                 Managing expenses through spreadsheets, emails, and manual approvals creates delays and limited visibility. Expense Tracker 365 centralizes expense tracking, approvals, reimbursements, and reporting in a secure Microsoft 365 environment designed for modern businesses.
+                                    Managing expenses through spreadsheets, emails, and manual approvals creates delays and limited visibility. Expense Tracker 365 centralizes expense tracking, approvals, reimbursements, and reporting in a secure Microsoft 365 environment designed for modern businesses.
                                 </p>
                             </div>
 
@@ -601,11 +670,11 @@ function Expense365ai() {
 
                                 <div className="sharepoint-right">
                                     <h3>
-                                       A Smarter Microsoft Expense Tracking Software
+                                        A Smarter Microsoft Expense Tracking Software
                                     </h3>
 
                                     <p>
-                                       Expense 365 brings receipts, expense submissions, approvals, reimbursements, and reporting into one Microsoft 365-based expense management system. 
+                                        Expense 365 brings receipts, expense submissions, approvals, reimbursements, and reporting into one Microsoft 365-based expense management system.
                                     </p>
 
                                     <ul>
@@ -687,24 +756,24 @@ function Expense365ai() {
                     <div>
                         <TabsWithImage tabs={tabs} />
                     </div>
- 
+
                     <div className="why-choose-container">
                         <div className="sharepoint-header">
                             <h2 className='HR_heading'>
-                              Why Choose SharePoint for Expense Management?   
+                                Why Choose SharePoint for Expense Management?
                             </h2>
 
                             <p>Organizations already using Microsoft 365 do not need another disconnected system for everyday expense work.
                                 <br />
-                               Expense 365 turns SharePoint into a structured expense management environment where receipts, expense records, approvals and reports remain connected to the Microsoft ecosystem. 
+                                Expense 365 turns SharePoint into a structured expense management environment where receipts, expense records, approvals and reports remain connected to the Microsoft ecosystem.
                             </p>
                         </div>
                         <div className="why-choose-boxs">
                             {Boxs.map((data, index) => (
-                            <div className='boxs' key={index}>
-                                <img decoding="async" src={data.image} title="" alt="clm" loading="lazy" />
-                                <p>{data.text}</p>
-                            </div>
+                                <div className='boxs' key={index}>
+                                    <img decoding="async" src={data.image} title="" alt="clm" loading="lazy" />
+                                    <p>{data.text}</p>
+                                </div>
                             ))}
                         </div>
                     </div>
@@ -715,7 +784,7 @@ function Expense365ai() {
                                 <h2 className='HR_heading'>Everything You Need to Automate Expense Tracking Inside Microsoft 365 </h2>
 
                                 <p>
-                                  Manage the complete expense lifecycle with AI-powered workflows built on Microsoft 365. From receipt capture to approvals and reporting, Expense Tracker 365 keeps expenses organized, visible, and compliant. 
+                                    Manage the complete expense lifecycle with AI-powered workflows built on Microsoft 365. From receipt capture to approvals and reporting, Expense Tracker 365 keeps expenses organized, visible, and compliant.
                                 </p>
                             </div>
 
@@ -741,15 +810,15 @@ function Expense365ai() {
 
 
                 </div>
-        
+
                 <div className='work-section'>
                     <div className="sharepoint-header">
                         <h2 className='HR_heading'>
-                           How Expense Tracker 365 Works?  
+                            How Expense Tracker 365 Works?
                         </h2>
 
                         <p>
-                          Expense Tracker 365 connects every stage of expense management into one structured workflow — from expense submission and receipt capture to approvals, reimbursement tracking, and reporting, all within your Microsoft 365 environment.
+                            Expense Tracker 365 connects every stage of expense management into one structured workflow — from expense submission and receipt capture to approvals, reimbursement tracking, and reporting, all within your Microsoft 365 environment.
                         </p>
                     </div>
                     <div className='work-info'>
@@ -836,7 +905,7 @@ function Expense365ai() {
                             </h2>
 
                             <p className="m365-subtitle">
-                              Works inside SharePoint, Microsoft Teams, Outlook, and other Microsoft 365 applications without switching tools. 
+                                Works inside SharePoint, Microsoft Teams, Outlook, and other Microsoft 365 applications without switching tools.
                             </p>
 
                             <div className="m365-grid">
@@ -863,7 +932,7 @@ function Expense365ai() {
                     <CyberSecurity />
                 </div>
                 <div className="IdChangesIntegration">
-                    
+
                 </div>
                 <CustomerSupport />
 
@@ -883,11 +952,11 @@ function Expense365ai() {
                 <section className="manage-footer-content">
                     <div className="manage-footer-container">
                         <h2 className="manage-footer-title">
-                            Ready to Track Expenses Inside Microsoft 365? 
+                            Ready to Track Expenses Inside Microsoft 365?
                         </h2>
 
                         <p className="manage-footer-description">
-                           Bring complete visibility and automation to your expense process inside SharePoint and Teams. 
+                            Bring complete visibility and automation to your expense process inside SharePoint and Teams.
                         </p>
                         {/* <p className="manage-footer-description">
                           Discover how LMS 365 brings courses, learning management, progress tracking, and certifications together inside Microsoft 365. 
