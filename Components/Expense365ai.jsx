@@ -514,8 +514,8 @@ function Expense365ai() {
         <>
             <HelmetProvider>
                 <Helmet>
-                    <title>AI SharePoint Expense Tracker: Automate Expenses</title>
-                    <meta name="description" content="Discover an AI SharePoint expense tracker to automate expense management, simplify approvals, reduce manual work, and improve financial visibility." />
+                    <title>Expense Management Software | Expense 365 AI</title>
+                    <meta name="description" content="Simplify employee expense tracking, approvals, reimbursements, and reporting with Expense 365 AI. Improve spending visibility and streamline expense management." />
                 </Helmet>
                 <ScrollToTop />
                 <Header isComparison={true} />
